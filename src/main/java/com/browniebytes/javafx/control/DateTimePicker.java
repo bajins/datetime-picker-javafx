@@ -29,21 +29,19 @@ public class DateTimePicker extends HBox implements Initializable {
 
     // DateTime value
     private ObjectProperty<LocalDateTime> dateTime;
-
     // Formatter for the text field
     private final DateTimeFormatter formatter;
-
     // Will hold date and time selectors
     private final Popup popupContainer;
-
     // Contents of the popup
     private final DateTimePickerPopup popup;
 
     @FXML
     private TextField textField;
-
     @FXML
     private Button button;
+    @FXML
+    private Button DateTimePicker_Button;
 
     /**
      * Default constructor uses current date and time with default formatter.
@@ -105,6 +103,8 @@ public class DateTimePicker extends HBox implements Initializable {
 
         popupContainer.getContent().add(popup);
         popupContainer.autoHideProperty().set(true);
+
+        DateTimePicker_Button.setOnAction(this::handleButtonAction);
     }
 
     /**

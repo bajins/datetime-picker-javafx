@@ -11,7 +11,7 @@
 
     <TextField fx:id="textField" id="DateTimePicker_TextField" disable="true" focusTraversable="false"/>
 
-    <Button fx:id="button" id="DateTimePicker_Button" onAction="#handleButtonAction">
+    <Button fx:id="button" id="DateTimePicker_Button" prefHeight="25.0">
         <graphic>
             <ImageView>
                 <image>
