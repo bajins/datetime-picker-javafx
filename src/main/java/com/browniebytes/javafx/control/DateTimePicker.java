@@ -39,9 +39,7 @@ public class DateTimePicker extends HBox implements Initializable {
     @FXML
     private TextField textField;
     @FXML
-    private Button button;
-    @FXML
-    private Button DateTimePicker_Button;
+    private Button dateTimePickerButton;
 
     /**
      * Default constructor uses current date and time with default formatter.
@@ -58,6 +56,7 @@ public class DateTimePicker extends HBox implements Initializable {
      */
     public DateTimePicker(final LocalDateTime dateTime) {
         this(dateTime, DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
+        //this(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
     /**
@@ -99,12 +98,12 @@ public class DateTimePicker extends HBox implements Initializable {
             textField.setText(formatter.format(newValue));
         });
 
-        button.prefHeightProperty().bind(textField.heightProperty());
+        dateTimePickerButton.prefHeightProperty().bind(textField.heightProperty());
+        dateTimePickerButton.setOnAction(this::handleButtonAction);
 
         popupContainer.getContent().add(popup);
         popupContainer.autoHideProperty().set(true);
 
-        DateTimePicker_Button.setOnAction(this::handleButtonAction);
     }
 
     /**
@@ -131,10 +130,11 @@ public class DateTimePicker extends HBox implements Initializable {
         if (popupContainer.isShowing()) {
             popupContainer.hide();
         } else {
-            final Window window = button.getScene().getWindow();
+            final Window window = dateTimePickerButton.getScene().getWindow();
 
             final double x = window.getX() + textField.localToScene(0, 0).getX() + textField.getScene().getX();
-            final double y = window.getY() + button.localToScene(0, 0).getY() + button.getScene().getY() + button.getHeight();
+            final double y = window.getY() + dateTimePickerButton.localToScene(0, 0).getY()
+                    + dateTimePickerButton.getScene().getY() + dateTimePickerButton.getHeight();
 
             popupContainer.show(this.getParent(), x, y);
         }

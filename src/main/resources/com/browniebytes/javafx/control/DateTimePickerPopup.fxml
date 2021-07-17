@@ -17,17 +17,17 @@
 
     <Accordion fx:id="accordion">
         <panes>
-            <TitledPane text="Date">
+            <TitledPane fx:id="dateTitledPane">
                 <DatePicker fx:id="datePicker"/>
             </TitledPane>
 
-            <TitledPane text="Time" fx:id="timePane">
+            <TitledPane fx:id="timeTitledPane">
                 <HBox alignment="CENTER" fx:id="timeButtonsPane">
-                    <Button fx:id="hoursButton" onAction="#handleHoursButtonAction"/>
+                    <Button fx:id="hoursButton"/>
                     <Label text=" : "/>
-                    <Button fx:id="minutesButton" onAction="#handleMinutesButtonAction"/>
+                    <Button fx:id="minutesButton"/>
                     <Label text=" : "/>
-                    <Button fx:id="secondsButton" onAction="#handleSecondsButtonAction"/>
+                    <Button fx:id="secondsButton"/>
                 </HBox>
             </TitledPane>
         </panes>
@@ -37,7 +37,7 @@
             <Insets bottom="5" left="5" right="5" top="5"/>
         </padding>
         <center>
-            <Button text="OK" onAction="#handleOkButtonAction">
+            <Button fx:id="okButton">
                 <graphic>
                     <ImageView>
                         <image>

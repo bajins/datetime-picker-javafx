@@ -1,5 +1,6 @@
 package com.browniebytes.javafx.control;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DateTimePickerPopup extends VBox implements Initializable {
@@ -29,24 +31,22 @@ public class DateTimePickerPopup extends VBox implements Initializable {
 
     @FXML
     private Accordion accordion;
-
     @FXML
     private DatePicker datePicker;
-
     @FXML
-    private TitledPane timePane;
-
+    private TitledPane dateTitledPane;
+    @FXML
+    private TitledPane timeTitledPane;
     @FXML
     private HBox timeButtonsPane;
-
     @FXML
     private Button hoursButton;
-
     @FXML
     private Button minutesButton;
-
     @FXML
     private Button secondsButton;
+    @FXML
+    private Button okButton;
 
     public DateTimePickerPopup(final DateTimePicker parentControl) {
         this.hour = parentControl.dateTimeProperty().get().getHour();
@@ -82,6 +82,25 @@ public class DateTimePickerPopup extends VBox implements Initializable {
 
         // Start with time pane expanded
         accordion.setExpandedPane(accordion.getPanes().get(1));
+
+        // Listen to the dateTimeProperty changes and update hours picker
+        parentControl.dateTimeProperty().addListener((observable, oldValue, newValue) -> hoursPicker.setHour(newValue.getHour()));
+
+        hoursButton.setOnAction(this::handleHoursButtonAction);
+        minutesButton.setOnAction(this::handleMinutesButtonAction);
+        secondsButton.setOnAction(this::handleSecondsButtonAction);
+        okButton.setOnAction(this::handleOkButtonAction);
+
+        Locale locale = Locale.getDefault();
+        if (locale.equals(Locale.CHINA)) {
+            dateTitledPane.setText("日期");
+            timeTitledPane.setText("时间");
+            okButton.setText("确定");
+        } else {
+            dateTitledPane.setText("Date");
+            timeTitledPane.setText("Time");
+            okButton.setText("OK");
+        }
     }
 
     void setDate(final LocalDate date) {
@@ -115,26 +134,26 @@ public class DateTimePickerPopup extends VBox implements Initializable {
         setTimeButtonText();
 
         // Restore original panel
-        timePane.setContent(timeButtonsPane);
+        timeTitledPane.setContent(timeButtonsPane);
     }
 
     @FXML
-    void handleHoursButtonAction() {
-        timePane.setContent(hoursPicker);
+    public void handleHoursButtonAction(ActionEvent actionEvent) {
+        timeTitledPane.setContent(hoursPicker);
     }
 
     @FXML
-    void handleMinutesButtonAction() {
-        timePane.setContent(minutesPicker);
+    public void handleMinutesButtonAction(ActionEvent actionEvent) {
+        timeTitledPane.setContent(minutesPicker);
     }
 
     @FXML
-    void handleSecondsButtonAction() {
-        timePane.setContent(secondsPicker);
+    public void handleSecondsButtonAction(ActionEvent actionEvent) {
+        timeTitledPane.setContent(secondsPicker);
     }
 
     @FXML
-    void handleOkButtonAction() {
+    public void handleOkButtonAction(ActionEvent actionEvent) {
         hour = hoursPicker.getHour();
         setTimeButtonText();
 

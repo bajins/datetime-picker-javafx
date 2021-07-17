@@ -9,9 +9,9 @@
 
 <fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml">
 
-    <TextField fx:id="textField" id="DateTimePicker_TextField" disable="true" focusTraversable="false"/>
+    <TextField fx:id="textField" id="date_time_picker_text_field" disable="true" focusTraversable="false"/>
 
-    <Button fx:id="button" id="DateTimePicker_Button" prefHeight="25.0">
+    <Button fx:id="dateTimePickerButton" id="date_time_picker_button" prefHeight="25.0">
         <graphic>
             <ImageView>
                 <image>

@@ -1,11 +1,11 @@
-#DateTimePicker_TextField {
+#date_time_picker_text_field {
     -fx-background-radius: 3 0 0 3
 }
 
-#DateTimePicker_TextField:disabled {
+#date_time_picker_text_field:disabled {
     -fx-opacity: 1.0;
 }
 
-#DateTimePicker_Button {
+#date_time_picker_button {
     -fx-background-radius: 0 3 3 0;
 }

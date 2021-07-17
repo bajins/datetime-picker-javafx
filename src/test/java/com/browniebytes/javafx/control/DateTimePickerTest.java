@@ -8,6 +8,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DateTimePickerTest extends Application implements Initializable {
@@ -18,10 +20,19 @@ public class DateTimePickerTest extends Application implements Initializable {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         final VBox vBox = new VBox();
-        vBox.getChildren().add(new Label("Date/Time"));
-        vBox.getChildren().add(new DateTimePicker());
+
+        String text;
+        Locale locale = Locale.getDefault();
+        if (locale.equals(Locale.CHINA)) {
+            text = "日期/时间";
+        } else {
+            text = "Date/Time";
+        }
+        vBox.getChildren().add(new Label(text));
+        //vBox.getChildren().add(new DateTimePicker());
+        vBox.getChildren().add(new DateTimePicker(LocalDateTime.now()));
 
         final Scene scene = new Scene(vBox);
 

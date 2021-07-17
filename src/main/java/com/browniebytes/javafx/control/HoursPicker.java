@@ -135,12 +135,7 @@ public class HoursPicker extends GridPane implements Initializable {
         int hour = parentContainer.getHour();
 
         // Select button
-        int offset = 0;
-        if (hour > 11) {
-            amPmButton.setSelected(true);
-            offset = -12;
-        }
-        hoursToggleGroup.selectToggle(buttonList.get(hour + offset));
+        selectButton(hour);
 
         // Change listener ensures that an hour value is always selected
         hoursToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
@@ -154,11 +149,24 @@ public class HoursPicker extends GridPane implements Initializable {
         });
     }
 
+    private void selectButton(int hour) {
+        int offset = 0;
+        if (hour > 11) {
+            amPmButton.setSelected(true);
+            offset = -12;
+        }
+        hoursToggleGroup.selectToggle(buttonList.get(hour + offset));
+    }
+
     int getHour() {
         int hour = buttonList.indexOf(hoursToggleGroup.getSelectedToggle());
         if (amPmButton.isSelected()) {
             hour += 12;
         }
         return hour;
+    }
+
+    public void setHour(int hour) {
+        selectButton(hour);
     }
 }
