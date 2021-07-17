@@ -18,7 +18,7 @@ public class HoursPicker extends GridPane implements Initializable {
 
     private static final int NUM_BUTTONS = 12;
 
-    private final List<ToggleButton> buttonList = new ArrayList<ToggleButton>(NUM_BUTTONS);
+    private final List<ToggleButton> buttonList = new ArrayList<>(NUM_BUTTONS);
 
     private final DateTimePickerPopup parentContainer;
 
