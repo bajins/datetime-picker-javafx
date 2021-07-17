@@ -64,7 +64,7 @@
         </repository>
     </distributionManagement>
 
-    <properties> <!-- 可在settings.xml中的profiles节点下配置，包括profile节点 -->
+    <properties> <!-- 可在settings.xml中的profiles节点下配置profile节点，然后把此节点放入其中-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--输出字符编码为UTF-8 -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -77,6 +77,14 @@
         <gpg.passphrase></gpg.passphrase>
         <gpg.executable>gpg2</gpg.executable>-->
     </properties>
+    <profiles>
+        <profile>
+            <id>ossrh</id> <!-- 需与settings.xml中的profiles节点下配置的profile节点保持一致 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 
     <!-- https://central.sonatype.org/publish/publish-maven -->
     <build>
