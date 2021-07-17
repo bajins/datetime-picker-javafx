@@ -160,7 +160,9 @@ public class DateTimePicker extends HBox implements Initializable {
      * @param date 日期
      */
     public void setTime(Date date) {
-        this.dateTimeProperty().set(date.toInstant().atOffset(OffsetDateTime.now().getOffset()).toLocalDateTime());
+        Instant instant = date.toInstant();
+        ZoneOffset offset = ZoneId.systemDefault().getRules().getOffset(instant);
+        this.dateTimeProperty().set(instant.atOffset(offset).toLocalDateTime());
     }
 
     public void setTime(LocalDateTime localDateTime) {
