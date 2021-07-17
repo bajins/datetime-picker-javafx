@@ -9,16 +9,16 @@
 
 <fx:root xmlns:fx="http://javafx.com/fxml" type="VBox">
 
-	<padding>
-		<Insets bottom="5" left="5" right="5" top="5"/>
-	</padding>
+    <padding>
+        <Insets bottom="5" left="5" right="5" top="5"/>
+    </padding>
 
-	<BorderPane>
-		<center>
-			<Label text="00" fx:id="label"/>
-		</center>
-	</BorderPane>
-	<Slider fx:id="slider"/>
+    <BorderPane>
+        <center>
+            <Label text="00" fx:id="label"/>
+        </center>
+    </BorderPane>
+    <Slider fx:id="slider"/>
 
 </fx:root>
 

@@ -1,11 +1,5 @@
 package com.browniebytes.javafx.control;
 
-import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,137 +10,140 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-class DateTimePickerPopup extends VBox implements Initializable {
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ResourceBundle;
 
-	private final DateTimePicker parentControl;
-	private final HoursPicker hoursPicker;
-	private final MinuteSecondPicker minutesPicker;
-	private final MinuteSecondPicker secondsPicker;
+public class DateTimePickerPopup extends VBox implements Initializable {
 
-	private int hour;
-	private int minute;
-	private int second;
+    private final DateTimePicker parentControl;
+    private final HoursPicker hoursPicker;
+    private final MinuteSecondPicker minutesPicker;
+    private final MinuteSecondPicker secondsPicker;
 
-	@FXML
-	private Accordion accordion;
+    private int hour;
+    private int minute;
+    private int second;
 
-	@FXML
-	private DatePicker datePicker;
+    @FXML
+    private Accordion accordion;
 
-	@FXML
-	private TitledPane timePane;
+    @FXML
+    private DatePicker datePicker;
 
-	@FXML
-	private HBox timeButtonsPane;
+    @FXML
+    private TitledPane timePane;
 
-	@FXML
-	private Button hoursButton;
+    @FXML
+    private HBox timeButtonsPane;
 
-	@FXML
-	private Button minutesButton;
+    @FXML
+    private Button hoursButton;
 
-	@FXML
-	private Button secondsButton;
+    @FXML
+    private Button minutesButton;
 
-	public DateTimePickerPopup(final DateTimePicker parentControl) {
-		this.hour = parentControl.dateTimeProperty().get().getHour();
-		this.minute = parentControl.dateTimeProperty().get().getMinute();
-		this.second = parentControl.dateTimeProperty().get().getSecond();
+    @FXML
+    private Button secondsButton;
 
-		this.parentControl = parentControl;
-		this.hoursPicker = new HoursPicker(this);
-		this.minutesPicker = new MinuteSecondPicker(this);
-		this.secondsPicker = new MinuteSecondPicker(this);
+    public DateTimePickerPopup(final DateTimePicker parentControl) {
+        this.hour = parentControl.dateTimeProperty().get().getHour();
+        this.minute = parentControl.dateTimeProperty().get().getMinute();
+        this.second = parentControl.dateTimeProperty().get().getSecond();
 
-		// Load FXML
-		final FXMLLoader fxmlLoader = new FXMLLoader(
-				getClass().getResource(
-						"DateTimePickerPopup.fxml"));
-		fxmlLoader.setRoot(this);
-		fxmlLoader.setController(this);
+        this.parentControl = parentControl;
+        this.hoursPicker = new HoursPicker(this);
+        this.minutesPicker = new MinuteSecondPicker(this);
+        this.secondsPicker = new MinuteSecondPicker(this);
 
-		try {
-			fxmlLoader.load();
-		} catch (IOException ex) {
-			// Should never happen.  If it does however, we cannot recover
-			// from this
-			throw new RuntimeException(ex);
-		}
-	}
+        // Load FXML
+        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DateTimePickerPopup.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// Set the button text
-		setTimeButtonText();
+        try {
+            fxmlLoader.load();
+        } catch (IOException ex) {
+            // Should never happen.  If it does however, we cannot recover
+            // from this
+            throw new RuntimeException(ex);
+        }
+    }
 
-		// Initialize date to value in parent control
-		datePicker.valueProperty().set(
-				parentControl.dateTimeProperty().get().toLocalDate());
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Set the button text
+        setTimeButtonText();
 
-		// Start with time pane expanded
-		accordion.setExpandedPane(accordion.getPanes().get(1));
-	}
+        // Initialize date to value in parent control
+        datePicker.valueProperty().set(parentControl.dateTimeProperty().get().toLocalDate());
 
-	void setDate(final LocalDate date) {
-		datePicker.setValue(date);
-	}
+        // Start with time pane expanded
+        accordion.setExpandedPane(accordion.getPanes().get(1));
+    }
 
-	LocalDate getDate() {
-		return datePicker.getValue();
-	}
+    void setDate(final LocalDate date) {
+        datePicker.setValue(date);
+    }
 
-	void setTime(final LocalTime time) {
-		hour = time.getHour();
-		minute = time.getMinute();
-		second = time.getSecond();
-		setTimeButtonText();
-	}
+    LocalDate getDate() {
+        return datePicker.getValue();
+    }
 
-	LocalTime getTime() {
-		return LocalTime.of(hour, minute, second);
-	}
+    void setTime(final LocalTime time) {
+        hour = time.getHour();
+        minute = time.getMinute();
+        second = time.getSecond();
+        setTimeButtonText();
+    }
 
-	int getHour() {
-		return hour;
-	}
+    LocalTime getTime() {
+        return LocalTime.of(hour, minute, second);
+    }
 
-	void restoreTimePanel() {
-		// Update hour
-		hour = hoursPicker.getHour();
-		minute = minutesPicker.getValue();
-		second = secondsPicker.getValue();
-		setTimeButtonText();
+    int getHour() {
+        return hour;
+    }
 
-		// Restore original panel
-		timePane.setContent(timeButtonsPane);
-	}
+    void restoreTimePanel() {
+        // Update hour
+        hour = hoursPicker.getHour();
+        minute = minutesPicker.getValue();
+        second = secondsPicker.getValue();
+        setTimeButtonText();
 
-	@FXML
-	void handleHoursButtonAction() {
-		timePane.setContent(hoursPicker);
-	}
+        // Restore original panel
+        timePane.setContent(timeButtonsPane);
+    }
 
-	@FXML
-	void handleMinutesButtonAction() {
-		timePane.setContent(minutesPicker);
-	}
+    @FXML
+    void handleHoursButtonAction() {
+        timePane.setContent(hoursPicker);
+    }
 
-	@FXML
-	void handleSecondsButtonAction() {
-		timePane.setContent(secondsPicker);
-	}
+    @FXML
+    void handleMinutesButtonAction() {
+        timePane.setContent(minutesPicker);
+    }
 
-	@FXML
-	void handleOkButtonAction() {
-		hour = hoursPicker.getHour();
-		setTimeButtonText();
+    @FXML
+    void handleSecondsButtonAction() {
+        timePane.setContent(secondsPicker);
+    }
 
-		parentControl.hidePopup();
-	}
+    @FXML
+    void handleOkButtonAction() {
+        hour = hoursPicker.getHour();
+        setTimeButtonText();
 
-	private void setTimeButtonText() {
-		hoursButton.setText(String.format("%02d", hour));
-		minutesButton.setText(String.format("%02d", minute));
-		secondsButton.setText(String.format("%02d", second));
-	}
+        parentControl.hidePopup();
+    }
+
+    private void setTimeButtonText() {
+        hoursButton.setText(String.format("%02d", hour));
+        minutesButton.setText(String.format("%02d", minute));
+        secondsButton.setText(String.format("%02d", second));
+    }
 }
