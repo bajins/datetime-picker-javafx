@@ -4,17 +4,24 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.bajins</groupId>
     <artifactId>datetime-picker-javafx</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>0.0.1</version>
 
     <name>${project.artifactId}</name>
     <description>Basic date and time picker control for JavaFX</description>
     <url>https://github.com/bajins/datetime-picker-javafx</url>
 
+    <!-- 许可证信息 -->
     <licenses>
-        <license>
-            <name>The Apache License, Version 2.0</name>
+        <!-- Apache许可证 -->
+        <!--<license>
+            <name>The Apache Software License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>-->
+        <!-- MIT许可证 -->
+        <license>
+            <name>MIT License</name>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
 
