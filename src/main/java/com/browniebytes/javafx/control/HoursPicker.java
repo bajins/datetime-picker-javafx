@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class HoursPicker extends GridPane implements Initializable {
@@ -98,8 +99,9 @@ public class HoursPicker extends GridPane implements Initializable {
 
         // Size the AM/PM toggle button
         amPmButton.prefHeightProperty().bind(zeroButton.heightProperty().multiply(3).add(getHgap() * 2));
-        amPmButton.prefWidthProperty().set(35);
+        //amPmButton.prefWidthProperty().set(40);
 
+        Locale locale = Locale.getDefault();
         // Configure AM/PM toggle button change listener
         amPmButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
             // Offset added for times after noon and before midnight
@@ -107,10 +109,18 @@ public class HoursPicker extends GridPane implements Initializable {
 
             // Toggle "AM" and "PM" and add 12 to the offset for PM
             if (newValue) {
-                amPmButton.setText("PM");
+                if (locale.equals(Locale.CHINA)) {
+                    amPmButton.setText("下午");
+                } else {
+                    amPmButton.setText("PM");
+                }
                 offset = NUM_BUTTONS;
             } else {
-                amPmButton.setText("AM");
+                if (locale.equals(Locale.CHINA)) {
+                    amPmButton.setText("上午");
+                } else {
+                    amPmButton.setText("AM");
+                }
             }
 
             // Update button text

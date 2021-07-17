@@ -24,5 +24,5 @@
     <ToggleButton fx:id="nineButton" text="09" GridPane.rowIndex="2" GridPane.columnIndex="1" toggleGroup="$hoursToggleGroup"/>
     <ToggleButton fx:id="tenButton" text="10" GridPane.rowIndex="2" GridPane.columnIndex="2" toggleGroup="$hoursToggleGroup"/>
     <ToggleButton fx:id="elevenButton" text="11" GridPane.rowIndex="2" GridPane.columnIndex="3" toggleGroup="$hoursToggleGroup"/>
-    <ToggleButton fx:id="amPmButton" text="AM" GridPane.rowIndex="0" GridPane.columnIndex="6" GridPane.rowSpan="3"/>
+    <ToggleButton fx:id="amPmButton" GridPane.rowIndex="0" GridPane.columnIndex="6" GridPane.rowSpan="3" prefWidth="40"/>
 </fx:root>
