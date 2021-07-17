@@ -14,11 +14,10 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -138,5 +137,46 @@ public class DateTimePicker extends HBox implements Initializable {
 
             popupContainer.show(this.getParent(), x, y);
         }
+    }
+
+    /**
+     * 给日期时间选择器设置时间
+     *
+     * @param dateString     日期字符串（<br>
+     *                       如："2015-12-07 22:50:00"<br>
+     *                       ）
+     * @param dateFontString 日期格式字符串（<br>
+     *                       如："yyyy-MM-dd HH:mm:ss"<br>
+     *                       ）
+     */
+    public void setTime(String dateString, String dateFontString) {
+        LocalDateTime localDateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern(dateFontString));
+        this.dateTimeProperty().set(localDateTime);// 设置DateTimePicker要显示的时间
+    }
+
+    /**
+     * 给日期时间选择器设置时间
+     *
+     * @param date 日期
+     */
+    public void setTime(Date date) {
+        this.dateTimeProperty().set(date.toInstant().atOffset(OffsetDateTime.now().getOffset()).toLocalDateTime());
+    }
+
+    public void setTime(LocalDateTime localDateTime) {
+        this.dateTimeProperty().set(localDateTime);// 设置DateTimePicker要显示的时间
+    }
+
+    /**
+     * 获取日期时间选择器的时间
+     *
+     * @return Date：当前日期时间选择器的时间
+     */
+    public Date getTime() {
+        return Date.from(this.dateTimeProperty().get().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    public String getTime(String style) {
+        return this.dateTimeProperty().get().format(DateTimeFormatter.ofPattern(style));
     }
 }
