@@ -64,7 +64,7 @@
         </repository>
     </distributionManagement>
 
-    <properties> <!-- 可在settings.xml中的profiles节点下配置profile节点，然后把此节点放入其中-->
+    <properties> <!-- 可在settings.xml中的profiles节点下配置profile节点，然后把此节点放入其中 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--输出字符编码为UTF-8 -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
