@@ -5,7 +5,7 @@
     <groupId>io.github.bajins</groupId>
     <artifactId>datetime-picker-javafx</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
 
     <name>${project.artifactId}</name>
     <description>Basic date and time picker control for JavaFX</description>
@@ -50,60 +50,86 @@
         <url>https://github.com/bajins/datetime-picker-javafx/issues</url>
     </issueManagement>
 
+    <!-- https://central.sonatype.org/publish/publish-guide/#releasing-to-central -->
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 
-    <!--<profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
+    <properties> <!-- 可在settings.xml中的profiles节点下配置，包括profile节点 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--输出字符编码为UTF-8 -->
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- windows需先安装 https://www.gpg4win.org 查看密钥详情 gpg -list-secret-keys -keyid-format long -->
+        <!--<gpg.homedir>${user.home}/AppData/Roaming/gnupg</gpg.homedir>
+        <gpg.keyname></gpg.keyname>
+        <gpg.passphrase></gpg.passphrase>
+        <gpg.executable>gpg2</gpg.executable>-->
+    </properties>
 
-                </plugins>
-            </build>
-        </profile>
-    </profiles>-->
-
+    <!-- https://central.sonatype.org/publish/publish-maven -->
     <build>
+        <!-- 表示父项目指定的工具包，如果不使用口令调用，将不会自动引用。如果需要自动执行的话，需要在子项目build.plugins中显式引用 -->
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <testFailureIgnore>true</testFailureIgnore>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
-                        <encoding>utf-8</encoding>
+                        <encoding>UTF-8</encoding>
+                        <!--<compilerArguments>
+                            <verbose/>
+                            <bootclasspath>${java.home}/lib/rt.jar${path.separator}${java.home}/lib/jce.jar</bootclasspath>
+                            <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
+                        </compilerArguments>-->
                     </configuration>
                 </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
                     <configuration>
                         <mavenExecutorId>forked-path</mavenExecutorId>
                         <useReleaseProfile>false</useReleaseProfile>
                         <arguments>-Psonatype-oss-release</arguments>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <releaseProfiles>release</releaseProfiles>
+                        <goals>deploy</goals>
                     </configuration>
                 </plugin>
-
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.1</version>
                     <inherited>true</inherited>
                     <executions>
                         <execution>
                             <id>attach-sources</id>
                             <goals>
                                 <goal>jar</goal>
+                                <!--<goal>jar-no-fork</goal>-->
                             </goals>
                         </execution>
                     </executions>
@@ -113,10 +139,11 @@
                     </configuration>
                 </plugin>
 
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.3.0</version>
                     <inherited>true</inherited>
                     <executions>
                         <execution>
@@ -132,14 +159,13 @@
                         <encoding>UTF-8</encoding>
                         <show>protected</show>
                         <notree>true</notree>
-
                         <!-- Avoid running into Java 8's very restrictive doclint issues -->
                         <failOnError>false</failOnError>
                         <doclint>none</doclint>
                     </configuration>
                 </plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
                 <plugin>
-                    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>3.0.1</version>
@@ -150,27 +176,68 @@
                             <goals>
                                 <goal>sign</goal>
                             </goals>
+                            <!--<configuration>
+                                <homedir>${gpg.homedir}</homedir>
+                                <keyname>${gpg.keyname}</keyname>
+                                <passphrase>${gpg.passphrase}</passphrase>
+                            </configuration>-->
                         </execution>
                     </executions>
                 </plugin>
+                <!-- https://github.com/s4u/sign-maven-plugin -->
+                <plugin>
+                    <groupId>org.simplify4u.plugins</groupId>
+                    <artifactId>sign-maven-plugin</artifactId>
+                    <version>0.3.1</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                            <!--<configuration>
+                                <keyId>${gpg.keyname}</keyId>
+                                <keyPass>${gpg.passphrase}</keyPass>
+                                <keyFile>${gpg.homedir}</keyFile>
+                            </configuration>-->
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.8</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
-
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
+            <!--  必须配置GPG插件用于使用以下配置对组件进行签名 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
-
 </project>
